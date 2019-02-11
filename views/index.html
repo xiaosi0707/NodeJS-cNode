@@ -1,5 +1,19 @@
 {{ extend './layout.html' }}
 
+{{ block 'css' }}
+<style>
+    body {
+        background: skyblue;
+    }
+</style>
+{{ /block }}
+
 {{ block 'content' }}
     <h1>填坑内容</h1>
+{{ /block }}
+
+{{ block 'script' }}
+<script>
+    alert('我是填坑的js')
+</script>
 {{ /block }}
