@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ include './header.html' }}
+
+<!-- 挖一个坑， 留给孩子填坑 -->
+{{ block 'content' }}
+    <h1>默认内容</h1>
+{{ /block }}
+
+{{ include './footer.html' }}
+</body>
+</html>

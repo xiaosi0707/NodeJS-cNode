@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{{ include './header.html' }}
-<h1>hello, {{ name }}</h1>
-{{ include './footer.html' }}
-</body>
-</html>
+{{ extend './layout.html' }}
+
+{{ block 'content' }}
+    <h1>填坑内容</h1>
+{{ /block }}
