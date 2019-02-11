@@ -7,6 +7,7 @@ let express = require('express')
 let router = express.Router()
 let mongoose = require('mongoose')
 let User = require('../models/user')
+let md5 = require('blueimp-md5')
 // 连接数据库
 mongoose.connect('mongodb://localhost/jiyun', { useMongoClient: true })
 
@@ -60,6 +61,8 @@ router.post('/register', (req, res) => {
             })
         }
 
+        // 处理password加密 - 多次加密
+        body.password = md5(md5(body.password))
         new User(body).save((err, user) => {
             if (err) {
                 return res.status(500).json({
