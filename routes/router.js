@@ -55,10 +55,11 @@ router.post('/register', (req, res) => {
         }
         if (data) {
             // 邮箱或昵称已存在
-            return res.status(200).json({
-                err_code: 1,
-                message: 'email or nickname already exists'
-            })
+            // return res.status(200).json({
+            //     err_code: 1,
+            //     message: 'email or nickname already exists'
+            // })
+            return res.send(`邮箱或昵称已存在，请重试`)
         }
 
         // 处理password加密 - 多次加密
