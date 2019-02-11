@@ -5,6 +5,10 @@
  */
 let express = require('express')
 let router = express.Router()
+let mongoose = require('mongoose')
+let User = require('../models/user')
+// 连接数据库
+mongoose.connect('mongodb://localhost/jiyun', { useMongoClient: true })
 
 router.get('/', (req, res) => {
     res.render('index.html')
@@ -23,8 +27,62 @@ router.get('/register', (req, res) => {
 })
 
 router.post('/register', (req, res) => {
+    /*
+    * 1、获取表单提交的数据
+    * 2、操作数据库
+    *       判断该用户是否存在
+    *           存在 -> NO
+    *           !存在 -> yes
+    * 3、发送响应
+    * */
     let { body } = req
-    console.log(body)
+    User.findOne({
+        $or: [
+            {
+                email: body.email
+            },
+            {
+                nickname: body.nickname
+            }
+        ]
+    }, (err, data) => {
+        if (err) {
+            return res.status(500).json({
+                err_code: 500,
+                message: 'Internal error'
+            })
+        }
+        if (data) {
+            // 邮箱或昵称已存在
+            return res.status(200).json({
+                err_code: 1,
+                message: 'email or nickname already exists'
+            })
+        }
+
+        new User(body).save((err, user) => {
+            if (err) {
+                return res.status(500).json({
+                    err_code: 500,
+                    message: 'Internal error'
+                })
+            }
+            // 这种方式可以 - 方法一
+            // res.status(200).send(JSON.stringify({
+            //     code: 0,
+            //     success: true
+            // }))
+            // 该方法接收一个对象作为参数，它会自动帮你把对象转为字符串再发送给浏览器 - 方法二
+            res.status(200).json({
+                err_code: 0,
+                message: 'ok'
+            })
+        })
+
+
+
+
+    })
 })
 
 
