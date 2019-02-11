@@ -5,6 +5,7 @@
  */
 let express = require('express')
 let path = require('path')
+let bodyParser = require('body-parser')
 let app = express()
 let router = require('./routes/router')
 
@@ -17,6 +18,11 @@ app.use('/node_modules', express.static(path.join(__dirname, './node_modules/'))
 app.listen(7000, () => {
     console.log('runing...')
 })
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 // 把路由挂载到app中
 app.use(router)
