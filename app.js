@@ -6,6 +6,7 @@
 let express = require('express')
 let path = require('path')
 let app = express()
+let router = require('./routes/router')
 
 // 模板引擎
 app.engine('html', require('express-art-template'))
@@ -17,11 +18,7 @@ app.listen(7000, () => {
     console.log('runing...')
 })
 
-// 路由
-app.get('/', (req, res) => {
-    res.render('index.html', {
-        name: '猪八戒'
-    })
-})
+// 把路由挂载到app中
+app.use(router)
 
 
