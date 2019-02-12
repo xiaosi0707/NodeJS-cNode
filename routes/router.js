@@ -55,15 +55,9 @@ router.post('/register', (req, res) => {
         }
         if (data) {
             // 邮箱或昵称已存在
-            // return res.status(200).json({
-            //     err_code: 1,
-            //     message: 'email or nickname already exists'
-            // })
-
-            // 这种处理方式不代表不好，服务端处理起来更加安全一些，但是会增大服务器的压力，同时为了交互的一致性，因为有些浏览器禁用了ajax或不支持ajax，GitHub目前就是这么做的，从服务端返回提示消息
-            return res.render('register.html', {
-                err_message: '邮箱或昵称已存在',
-                formData: body
+            return res.status(200).json({
+                err_code: 1,
+                message: 'email or nickname already exists'
             })
         }
 
@@ -82,10 +76,15 @@ router.post('/register', (req, res) => {
             //     success: true
             // }))
             // 该方法接收一个对象作为参数，它会自动帮你把对象转为字符串再发送给浏览器 - 方法二
-            res.status(200).json({
-                err_code: 0,
-                message: 'ok'
-            })
+            // res.status(200).json({
+            //     err_code: 0,
+            //     message: 'ok'
+            // })
+
+            /*
+            * 服务端重定向只针对同步请求才有效，异步请求无效
+            * */
+            res.redirect('/')
         })
 
 
