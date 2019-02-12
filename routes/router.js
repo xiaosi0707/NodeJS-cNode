@@ -21,6 +21,15 @@ router.get('/login', (req, res) => {
     res.render('login.html')
 })
 
+router.get('/logout', (req, res) => {
+    /*
+    * 1、清除登录状态
+    * 2、重定向到首页
+    * */
+    req.session.user = null
+    res.redirect('/login')
+})
+
 router.post('/login', (req, res) => {
     /*
     * 1、获取表单数据
