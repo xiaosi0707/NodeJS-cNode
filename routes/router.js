@@ -22,7 +22,39 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
+    /*
+    * 1、获取表单数据
+    * 2、查询数据库用户名和密码是否正确
+    * 3、发送响应数据
+    * */
+    let { email, password } = req.body
+    User.findOne({
+        email,
+        password: md5(md5(password))
+    }, (err, user) => {
 
+        if (err) {
+            return res.status(500).json({
+                err_code: 500,
+                message: err.message
+            })
+        }
+
+        if (!user) {
+            return res.status(200).json({
+                err_code: 1,
+                message: 'email or password is invalid'
+            })
+        }
+
+        // 用户存在，登录成功，通过 session 记录登录状态
+        req.session.user = user
+        res.status(200).json({
+            err_code: 0,
+            message: 'ok'
+        })
+
+    })
 })
 
 router.get('/register', (req, res) => {
