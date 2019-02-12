@@ -12,7 +12,9 @@ let md5 = require('blueimp-md5')
 mongoose.connect('mongodb://localhost/jiyun', { useMongoClient: true })
 
 router.get('/', (req, res) => {
-    res.render('index.html')
+    res.render('index.html', {
+        user: req.session.user
+    })
 })
 
 router.get('/login', (req, res) => {
@@ -75,16 +77,16 @@ router.post('/register', (req, res) => {
             //     code: 0,
             //     success: true
             // }))
-            // 该方法接收一个对象作为参数，它会自动帮你把对象转为字符串再发送给浏览器 - 方法二
-            // res.status(200).json({
-            //     err_code: 0,
-            //     message: 'ok'
-            // })
 
-            /*
-            * 服务端重定向只针对同步请求才有效，异步请求无效
-            * */
-            res.redirect('/')
+            // 注册成功，使用session记录用户的登录状态
+            req.session.user = user
+
+            // 该方法接收一个对象作为参数，它会自动帮你把对象转为字符串再发送给浏览器 - 方法二
+            res.status(200).json({
+                err_code: 0,
+                message: 'ok'
+            })
+
         })
 
 
