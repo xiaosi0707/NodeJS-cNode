@@ -36,9 +36,9 @@ app.use(bodyParser.json())
 *   访问session成员：req.session.foo
 * */
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
+    secret: 'wyunfei', // 配置加密字符串，它会在原有加密基础上，和这个字符串拼起来加密，只要有人不知道这个字符串那么就无法破解，增加安全性，防止客户端恶意伪造，而且你用的express-session别人可能也用，可能会有重复，因此必须加上
+    resave: false, // 先不管
+    saveUninitialized: true // 无论你是否使用session我都默认直接给你分配一把钥匙。如果为false，只有你真正的往session里面存储数据的时候才会生成（给你一把钥匙）
 }))
 
 // 把路由挂载到app中
